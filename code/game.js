@@ -72,8 +72,8 @@ game.prototype.setup = function() {
 	//track
 	let currX = 0;
 	let currY = 1;
-	for(let i = 0; i < 100; i++) {
-		newY = currY + (this.map[i] - 0.5) * i / 50;
+	for(let i = 0; i < 70; i++) {
+		newY = currY + (this.map[i] - 0.5) * i / 40;
 		newX = currX + 1;
 		let arr = [new b2Vec2(0, 0), new b2Vec2(-0.1, -0.1),
 			new b2Vec2(newX - currX -0.1, newY - currY - 0.1), new b2Vec2(newX - currX, newY - currY)];
@@ -423,7 +423,7 @@ function car(options) {
 	bodyDef.position.Set(this.x, this.y);
 	
 	let fixDef = new b2FixtureDef();
-	fixDef.density = 6;
+	fixDef.density = 5;
 	fixDef.friction = 0.8;
 	fixDef.restitution = 0.1;
 	
@@ -459,13 +459,16 @@ function car(options) {
 	//wheels
 	let wFixDef = new b2FixtureDef();
 	wFixDef.shape = new b2CircleShape;
-	wFixDef.density = 6;
+	wFixDef.density = 5;
 	wFixDef.friction = 0.8;
 	wFixDef.restitution = 0.5;
 	wFixDef.filter.groupIndex = -1;
 	
+	this.wheelCount = 0;
+	this.mass = body.GetMass();
 	for(let i = 0; i < 8; i++){
 		if(this.isWheels[i]){
+			this.wheelCount++;
 			let wBodyDef = new b2BodyDef();
 			wBodyDef.type = b2Body.b2_dynamicBody;
 			wBodyDef.fixedRotation = false;
@@ -477,13 +480,14 @@ function car(options) {
 			
 			let wBody = this.game.box2d_world.CreateBody(wBodyDef);
 			wBody.CreateFixture(wFixDef);
+			this.mass += wBody.GetMass();
 			
 			let revoluteJointDef = new b2RevoluteJointDef();
 			revoluteJointDef.enableMotor = true;
 			revoluteJointDef.Initialize(body, wBody, wBodyDef.position);
 			let motor = this.game.box2d_world.CreateJoint(revoluteJointDef);
 			motor.SetMotorSpeed(-0.35*Math.PI / (this.radiuses[i] + 0.0));
-			motor.SetMaxMotorTorque(2);
+			motor.SetMaxMotorTorque((13 - this.wheelCount)*this.mass/30);
 			bodies.push(wBody);
 		}
 	}
