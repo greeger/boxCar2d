@@ -482,7 +482,7 @@ function car(options) {
 			revoluteJointDef.enableMotor = true;
 			revoluteJointDef.Initialize(body, wBody, wBodyDef.position);
 			let motor = this.game.box2d_world.CreateJoint(revoluteJointDef);
-			motor.SetMotorSpeed(-0.33*Math.PI / (this.radiuses[i] + 0.0));
+			motor.SetMotorSpeed(-0.35*Math.PI / (this.radiuses[i] + 0.0));
 			motor.SetMaxMotorTorque(0.1);
 			bodies.push(wBody);
 		}
