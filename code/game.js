@@ -423,7 +423,7 @@ function car(options) {
 	bodyDef.position.Set(this.x, this.y);
 	
 	let fixDef = new b2FixtureDef();
-	fixDef.density = 4;
+	fixDef.density = 6;
 	fixDef.friction = 0.8;
 	fixDef.restitution = 0.1;
 	
@@ -459,7 +459,7 @@ function car(options) {
 	//wheels
 	let wFixDef = new b2FixtureDef();
 	wFixDef.shape = new b2CircleShape;
-	wFixDef.density = 4;
+	wFixDef.density = 6;
 	wFixDef.friction = 0.8;
 	wFixDef.restitution = 0.5;
 	wFixDef.filter.groupIndex = -1;
